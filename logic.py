@@ -5,16 +5,6 @@
 # The outcome is to release the least amount of notes back to the customer. 
 
 from tabulate import tabulate
-import json
-
-def main():
-    print("Welcome to ABC Vending Machine")
-    displayProducts()
-    choice = input("What would you like to order? Select the number from the following list:")
-    change = displayProductPrice(choice)
-    
-    displayChange(change)
-
 
 product_lists = [{
     "id" : 1,
@@ -65,6 +55,8 @@ def displayProductPrice(choice_id):
         
         price_paid = input(f"The price is {product_price}, how much are you paying? ")
         change = int(price_paid) - product_price
+        if change < 0:
+            raise Exception("Insufficient money for purchase")
         return change
 
 def displayChange(change):
@@ -99,5 +91,11 @@ def displayChange(change):
         display_list.append(flattened_note)
     print(tabulate(display_list))
 
-
+def main():
+    print("Welcome to ABC Vending Machine")
+    displayProducts()
+    choice = input("What would you like to order? Select the number from the following list:")
+    change = displayProductPrice(choice)
+    displayChange(change)
+    
 main()
